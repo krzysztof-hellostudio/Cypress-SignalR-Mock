@@ -81,13 +81,13 @@ function _(e, r, t) {
 function f(e) {
   return typeof e == "function";
 }
-function H(e) {
+function F(e) {
   var r = function(n) {
     Error.call(n), n.stack = new Error().stack;
   }, t = e(r);
   return t.prototype = Object.create(Error.prototype), t.prototype.constructor = t, t;
 }
-var C = H(function(e) {
+var C = F(function(e) {
   return function(t) {
     e(this), this.message = t ? t.length + ` errors occurred during unsubscription:
 ` + t.map(function(n, o) {
@@ -130,21 +130,21 @@ var g = function() {
           }
         else
           s.remove(this);
-      var I = this.initialTeardown;
-      if (f(I))
+      var M = this.initialTeardown;
+      if (f(M))
         try {
-          I();
+          M();
         } catch (l) {
           i = l instanceof C ? l.errors : [l];
         }
-      var M = this._finalizers;
-      if (M) {
+      var A = this._finalizers;
+      if (A) {
         this._finalizers = null;
         try {
-          for (var b = x(M), h = b.next(); !h.done; h = b.next()) {
+          for (var b = x(A), h = b.next(); !h.done; h = b.next()) {
             var Q = h.value;
             try {
-              A(Q);
+              L(Q);
             } catch (l) {
               i = i ?? [], l instanceof C ? i = _(_([], y(i)), y(l.errors)) : i.push(l);
             }
@@ -167,7 +167,7 @@ var g = function() {
     var t;
     if (r && r !== this)
       if (this.closed)
-        A(r);
+        L(r);
       else {
         if (r instanceof e) {
           if (r.closed || r._hasParent(this))
@@ -192,14 +192,14 @@ var g = function() {
     var r = new e();
     return r.closed = !0, r;
   }(), e;
-}(), F = g.EMPTY;
-function Y(e) {
+}(), Y = g.EMPTY;
+function B(e) {
   return e instanceof g || e && "closed" in e && f(e.remove) && f(e.add) && f(e.unsubscribe);
 }
-function A(e) {
+function L(e) {
   f(e) ? e() : e.unsubscribe();
 }
-var B = {
+var q = {
   onUnhandledError: null,
   onStoppedNotification: null,
   Promise: void 0,
@@ -223,16 +223,16 @@ function Z(e) {
     throw e;
   });
 }
-function L() {
+function $() {
 }
 function v(e) {
   e();
 }
-var q = function(e) {
+var G = function(e) {
   w(r, e);
   function r(t) {
     var n = e.call(this) || this;
-    return n.isStopped = !1, t ? (n.destination = t, Y(t) && t.add(n)) : n.destination = tr, n;
+    return n.isStopped = !1, t ? (n.destination = t, B(t) && t.add(n)) : n.destination = tr, n;
   }
   return r.create = function(t, n, o) {
     return new D(t, n, o);
@@ -306,7 +306,7 @@ var N = function() {
       };
     else {
       var u;
-      i && B.useDeprecatedNextContext ? (u = Object.create(t), u.unsubscribe = function() {
+      i && q.useDeprecatedNextContext ? (u = Object.create(t), u.unsubscribe = function() {
         return i.unsubscribe();
       }, s = {
         next: t.next && E(t.next, u),
@@ -317,7 +317,7 @@ var N = function() {
     return i.destination = new N(s), i;
   }
   return r;
-}(q);
+}(G);
 function d(e) {
   Z(e);
 }
@@ -326,9 +326,9 @@ function rr(e) {
 }
 var tr = {
   closed: !0,
-  next: L,
+  next: $,
   error: rr,
-  complete: L
+  complete: $
 }, er = function() {
   return typeof Symbol == "function" && Symbol.observable || "@@observable";
 }();
@@ -342,7 +342,7 @@ function or(e) {
     }, t);
   };
 }
-var $ = function() {
+var R = function() {
   function e(r) {
     r && (this._subscribe = r);
   }
@@ -363,7 +363,7 @@ var $ = function() {
     }
   }, e.prototype.forEach = function(r, t) {
     var n = this;
-    return t = R(t), new t(function(o, i) {
+    return t = U(t), new t(function(o, i) {
       var s = new D({
         next: function(u) {
           try {
@@ -388,7 +388,7 @@ var $ = function() {
     return or(r)(this);
   }, e.prototype.toPromise = function(r) {
     var t = this;
-    return r = R(r), new r(function(n, o) {
+    return r = U(r), new r(function(n, o) {
       var i;
       t.subscribe(function(s) {
         return i = s;
@@ -402,17 +402,17 @@ var $ = function() {
     return new e(r);
   }, e;
 }();
-function R(e) {
+function U(e) {
   var r;
-  return (r = e ?? B.Promise) !== null && r !== void 0 ? r : Promise;
+  return (r = e ?? q.Promise) !== null && r !== void 0 ? r : Promise;
 }
 function ir(e) {
   return e && f(e.next) && f(e.error) && f(e.complete);
 }
 function sr(e) {
-  return e && e instanceof q || ir(e) && Y(e);
+  return e && e instanceof G || ir(e) && B(e);
 }
-var ur = H(function(e) {
+var ur = F(function(e) {
   return function() {
     e(this), this.name = "ObjectUnsubscribedError", this.message = "object unsubscribed";
   };
@@ -423,7 +423,7 @@ var ur = H(function(e) {
     return t.closed = !1, t.currentObservers = null, t.observers = [], t.isStopped = !1, t.hasError = !1, t.thrownError = null, t;
   }
   return r.prototype.lift = function(t) {
-    var n = new U(this, this);
+    var n = new V(this, this);
     return n.operator = t, n;
   }, r.prototype._throwIfClosed = function() {
     if (this.closed)
@@ -484,19 +484,19 @@ var ur = H(function(e) {
     return this._throwIfClosed(), this._checkFinalizedStatuses(t), this._innerSubscribe(t);
   }, r.prototype._innerSubscribe = function(t) {
     var n = this, o = this, i = o.hasError, s = o.isStopped, u = o.observers;
-    return i || s ? F : (this.currentObservers = null, u.push(t), new g(function() {
+    return i || s ? Y : (this.currentObservers = null, u.push(t), new g(function() {
       n.currentObservers = null, P(u, t);
     }));
   }, r.prototype._checkFinalizedStatuses = function(t) {
     var n = this, o = n.hasError, i = n.thrownError, s = n.isStopped;
     o ? t.error(i) : s && t.complete();
   }, r.prototype.asObservable = function() {
-    var t = new $();
+    var t = new R();
     return t.source = this, t;
   }, r.create = function(t, n) {
-    return new U(t, n);
+    return new V(t, n);
   }, r;
-}($), U = function(e) {
+}(R), V = function(e) {
   w(r, e);
   function r(t, n) {
     var o = e.call(this) || this;
@@ -513,7 +513,7 @@ var ur = H(function(e) {
     (n = (t = this.destination) === null || t === void 0 ? void 0 : t.complete) === null || n === void 0 || n.call(t);
   }, r.prototype._subscribe = function(t) {
     var n, o;
-    return (o = (n = this.source) === null || n === void 0 ? void 0 : n.subscribe(t)) !== null && o !== void 0 ? o : F;
+    return (o = (n = this.source) === null || n === void 0 ? void 0 : n.subscribe(t)) !== null && o !== void 0 ? o : Y;
   }, r;
 }(O);
 class cr {
@@ -712,16 +712,16 @@ class lr {
   }
   // endregion
 }
-function G() {
-  return T() ? !1 : window.hasOwnProperty("Cypress");
+function J() {
+  return I() ? !1 : window.hasOwnProperty("Cypress");
 }
 function S() {
-  return !T() && window["cypress-signalr-mock"] ? window["cypress-signalr-mock"] : (J(), S());
+  return !I() && window["cypress-signalr-mock"] ? window["cypress-signalr-mock"] : (K(), S());
 }
 function fr(e) {
-  T() || (window["cypress-signalr-mock"] = e);
+  I() || (window["cypress-signalr-mock"] = e);
 }
-function J() {
+function K() {
   fr(pr());
 }
 function pr() {
@@ -729,21 +729,21 @@ function pr() {
     mocks: []
   };
 }
-function K(e) {
+function T(e) {
   return S().mocks.find((t) => t.name === e) ?? null;
 }
-function T() {
+function I() {
   return typeof window > "u" ? (c.error(
     "window is not defined. This most likely happens during SSR, which is not supported",
     !1
   ), !0) : !1;
 }
-function V() {
+function H() {
   var e;
   return typeof process < "u" && ((e = process == null ? void 0 : process.env) == null ? void 0 : e.hasOwnProperty("VITEST")) && process.env.VITEST === "true";
 }
 function hr() {
-  if (!G()) {
+  if (!J()) {
     c.debug("Cypress is not running, skipping setup of Cypress commands");
     return;
   }
@@ -751,7 +751,7 @@ function hr() {
   e.Commands.add("hubPublish", br), e.Commands.add("hubVerifyInvokes", dr), e.Commands.add("hubClear", yr), e.Commands.add("hubPrintData", vr);
 }
 function br(e, r, t) {
-  const n = K(e);
+  const n = T(e);
   if (!n) {
     c.error(`[cy.hubPublish] - HubConnectionMock not found for ${e}`);
     return;
@@ -759,7 +759,7 @@ function br(e, r, t) {
   n.publish(r, t);
 }
 function dr(e, r, t) {
-  const n = K(e);
+  const n = T(e);
   if (!n) {
     c.error(
       `[cy.hubVerify] - HubConnectionMock not found for hub with name: ${e}`
@@ -775,7 +775,7 @@ function vr() {
   );
 }
 function yr() {
-  J();
+  K();
 }
 hr();
 _r("default");
@@ -783,11 +783,11 @@ function _r(e, {
   debug: r,
   enableForVitest: t
 } = {}) {
-  if (r && c.setLogLevel(4), !t && V() && c.info(
+  if (r && c.setLogLevel(4), !t && H() && c.info(
     `Vitest is running but 'enableForVitest' is ${t}, skip enabling CypressSignalRMock...`
-  ), G() || t && V()) {
-    const n = new lr(e);
-    return S().mocks.push(n), n;
+  ), J() || t && H()) {
+    let n = T(e);
+    return n || (n = new lr(e), S().mocks.push(n)), n;
   }
   return null;
 }

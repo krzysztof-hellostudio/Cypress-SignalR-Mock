@@ -8,7 +8,7 @@ import { setupCypressCommands } from "./cypress-commands";
 import IMockData from "./types/IMockData";
 import IServerInvoke from "./types/IServerInvoke";
 import {
-  getCypressSignalrMockData,
+  getCypressSignalrMockData, getHubConnectionMock,
   isCypressRunning,
   isInVitestMode,
 } from "./utils.ts";
