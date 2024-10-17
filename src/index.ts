@@ -34,8 +34,11 @@ export function useCypressSignalRMock(
   }
 
   if (isCypressRunning() || (enableForVitest && isInVitestMode())) {
-    const mock = new HubConnectionMock(name);
-    getCypressSignalrMockData().mocks.push(mock);
+    let mock = getHubConnectionMock(name);
+    if(!mock){
+      mock = new HubConnectionMock(name);
+      getCypressSignalrMockData().mocks.push(mock);
+    }
     return <HubConnection>(mock as unknown);
   }
   return null;
